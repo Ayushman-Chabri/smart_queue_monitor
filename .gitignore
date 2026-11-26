@@ -1,0 +1,28 @@
+# Python & Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+venv/
+env/
+.conda/
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Heavy ML Artifacts & Datasets (Keep models/yolo11n.onnx tracked!)
+*.pt
+*.pth
+dataset/
+hard_examples/*.jpg
+hard_examples/*.png
+!hard_examples/.gitkeep
+
+# Local Secrets & Logs
+.env
+*.log

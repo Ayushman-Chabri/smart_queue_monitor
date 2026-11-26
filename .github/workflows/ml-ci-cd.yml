@@ -1,0 +1,34 @@
+name: Smart Queue ML CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-test-and-sla-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install System & Python Dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y libgl1 libglib2.0-0
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff pytest httpx
+
+      - name: Code Quality Check (Ruff)
+        run: ruff check app/ tests/ scripts/ --ignore E501
+
+      - name: Run Functional API & Latency SLA Tests
+        run: pytest -v -s tests/
